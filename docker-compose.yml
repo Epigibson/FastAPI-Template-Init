@@ -1,0 +1,22 @@
+version: '6.0'
+
+services:
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - JWT_SECRET_KEY=valor_secreto_para_jwt
+      - JWT_REFRESH_SECRET_KEY=valor_secreto_para_jwt_refresh
+      - MONGO_CONNECTION_STRING=mongodb://mongo:27017
+    depends_on:
+      - mongo
+
+volumes:
+  mongodb_data:
