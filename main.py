@@ -9,6 +9,8 @@ from docs import tags_metadata
 from models.notificaciones_model import Notificaciones
 from models.user_model import Usuario
 from models.todo_model import Todo
+from models.role_model import Role
+from models.permission_model import Permission
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -34,6 +36,8 @@ async def app_init():
             Notificaciones,
             Usuario,
             Todo,
+            Role,
+            Permission,
         ]
     )
 app.include_router(router, prefix=settings.API_V1_STR)

@@ -1,10 +1,8 @@
 from datetime import datetime
-
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import jwt
 from pydantic import ValidationError
-
 from core.config import settings
 from models.user_model import Usuario
 from schemas.auth_schema import TokenPayload
@@ -14,6 +12,7 @@ reusable_oauth = OAuth2PasswordBearer(
     tokenUrl=f"{settings.API_V1_STR}/auth/login",
     scheme_name="JWT"
 )
+
 
 async def get_current_user(token: str = Depends(reusable_oauth)) -> Usuario:
     try:
@@ -44,3 +43,4 @@ async def get_current_user(token: str = Depends(reusable_oauth)) -> Usuario:
         )
 
     return user
+

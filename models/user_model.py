@@ -10,11 +10,13 @@ class Usuario(Document):
     username: Indexed(str, unique=True)
     email: Indexed(EmailStr, unique=True)
     hashed_password: str
-    telefono: Optional[str] = None
-    movil: Optional[int] = None
-    fecha_nacimiento: Optional[str]
-    estatus: Optional[bool] = True
-
+    phone: Optional[int] = None
+    mobile: Optional[int] = None
+    role: Optional[PydanticObjectId]
+    birthday: Optional[str]
+    status: Optional[bool] = True
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
 
     def __repr__(self) -> str:
         return f"<User {self.email}>"

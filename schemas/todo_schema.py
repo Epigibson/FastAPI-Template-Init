@@ -1,6 +1,7 @@
 from datetime import datetime
 from typing import Optional
 from uuid import UUID
+from beanie import PydanticObjectId
 from pydantic import BaseModel, Field
 
 
@@ -15,8 +16,10 @@ class TodoOut(BaseModel):
     estatus: bool
     titulo: str
     descripcion: Optional[str]
+    owner: PydanticObjectId
     created_at: datetime
     updated_at: datetime
+
 
 class TodoUpdate(BaseModel):
     titulo: Optional[str]

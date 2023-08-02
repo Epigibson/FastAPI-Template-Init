@@ -1,8 +1,8 @@
-from typing import List
 from uuid import UUID
 import pymongo.errors
 from fastapi import APIRouter, HTTPException, status, Depends
 from api.deps.user_deps import get_current_user
+from models.role_model import Role
 from models.user_model import Usuario
 from schemas.usuario_schema import UsuarioAuth, UsuarioOut, UsuarioUpdate
 from services.usuario_services import UsuarioService
@@ -10,7 +10,7 @@ from services.usuario_services import UsuarioService
 user_router = APIRouter()
 
 
-@user_router.post('/create', summary="Crear nuevo usuario", response_model=UsuarioOut)
+@user_router.post('/create', summary="Crear nuevo usuario", response_model=UsuarioOut, tags=["User"])
 async def create_user(data: UsuarioAuth):
     try:
         usuario = await UsuarioService.create_usuario(data)
@@ -23,7 +23,7 @@ async def create_user(data: UsuarioAuth):
         )
 
 
-@user_router.put('/update', summary="Actualizar usuario")
+@user_router.put('/update', summary="Actualizar usuario", tags=["User"])
 async def update_user(data: UsuarioUpdate, usuario: Usuario = Depends(get_current_user)):
     try:
         return await UsuarioService.update_user(usuario.user_id, data)
@@ -34,9 +34,13 @@ async def update_user(data: UsuarioUpdate, usuario: Usuario = Depends(get_curren
         )
 
 
-@user_router.get('/me', summary="Se obtiene el usuario logeado", response_model=UsuarioOut)
+@user_router.get('/me', summary="Se obtiene el usuario logeado", tags=["User"])
 async def get_me(usuario: Usuario = Depends(get_current_user)):
     try:
+        if usuario:
+            role = await Role.find_one(Role.id == usuario.role)
+            if role:
+                usuario.role = role.name
         return usuario
     except pymongo.errors.OperationFailure:
         raise HTTPException(
@@ -45,7 +49,7 @@ async def get_me(usuario: Usuario = Depends(get_current_user)):
         )
 
 
-@user_router.get('/list', summary='Se obtiene un listado de todos los Usuarios', response_model=List[UsuarioOut])
+@user_router.get('/list', summary='Se obtiene un listado de todos los Usuarios', tags=["User"])
 async def list_usuarios():
     try:
         result = UsuarioService.get_all_usuarios()
@@ -57,8 +61,8 @@ async def list_usuarios():
         )
 
 
-@user_router.put('update/admin/{user_id}', summary='Se actrualiza el usuario seleccionandolo mediante el ID',
-                 response_model=UsuarioOut)
+@user_router.put('update/admin/{user_id}', summary='Se actualiza el usuario seleccionándolo mediante el ID',
+                 response_model=UsuarioOut,  tags=["User"])
 async def update_user_as_admin(user_id: UUID, data: UsuarioUpdate):
     try:
         result = UsuarioService.update_user(user_id, data)

@@ -1,22 +1,30 @@
 tags_metadata = [
     {
         "name": "Auth",
-        "description": "Rutas de autenticacion"
+        "description": "Auth routes"
     },
     {
-        "name": "Usuarios",
-        "description": "Rutas de Usuarios"
+        "name": "User",
+        "description": "User routes"
     },
     {
-        "name": "Notificaciones",
-        "description": "Rutas de notificaciones"
+        "name": "Role",
+        "description": "Role routes"
     },
     {
-        "name": "Configuraciones",
-        "description": "Rutas de configuracion"
+        "name": "Permission",
+        "description": "Permission routes"
+    },
+    {
+        "name": "Notification",
+        "description": "Notification routes"
+    },
+    {
+        "name": "Configuration",
+        "description": "Configuration routes"
     },
     {
         "name": "Todo",
-        "description": "Rutas de Todo"
+        "description": "Todo routes"
     }
 ]
