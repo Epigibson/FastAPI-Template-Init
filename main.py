@@ -14,8 +14,8 @@ from models.permission_model import Permission
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
-    description=DESCRIPTION,
-    version="1.0.0(Alpha)",
+    description="Inicio de aplicacion.",
+    version="0.0.1(Alpha)",
     openapi_tags=tags_metadata,
     openapi_url=f"{settings.API_V1_STR}/openapi.json",
     debug=False
@@ -28,7 +28,7 @@ async def app_init():
         initialize crucial application services
     """
 
-    db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING).WMG
+    db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING).CotizadorAIS
 
     await init_beanie(
         database=db_client,
@@ -44,7 +44,7 @@ app.include_router(router, prefix=settings.API_V1_STR)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.BACKEND_CORS_ORIGINS,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

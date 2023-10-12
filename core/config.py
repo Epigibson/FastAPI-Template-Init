@@ -16,7 +16,7 @@ class Settings(BaseSettings):
     ALLOWED_METHODS: Set[str] = {"*"}
     ALLOWED_HEADERS: Set[str] = {"*"}
     ALLOWED_CREDENTIALS: bool = True
-    PROJECT_NAME: str = "Initial Template"
+    PROJECT_NAME: str = "Cotizador-AIS"
     SENDGRID_API_KEY = config("SENDGRID_API_KEY", cast=str)
     MONGO_CONNECTION_STRING = config("MONGO_CONNECTION_STRING", cast=str)
 
