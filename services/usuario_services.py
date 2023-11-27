@@ -4,6 +4,7 @@ import pymongo.errors
 from core.security import get_password, verify_password
 from models.role_model import Role
 from models.user_model import Usuario
+from models.veterianrian_info_model import VeterinarianInfo
 from schemas.usuario_schema import UsuarioAuth, UsuarioUpdate
 
 
@@ -15,8 +16,20 @@ class UsuarioService:
             email=usuario.email,
             hashed_password=get_password(usuario.password),
             role=usuario.role,
+            name=usuario.name,
+            user_type=usuario.user_type,
         )
-        await user_in.save()
+        await user_in.insert()
+
+        if user_in.user_type == "veterinarian":
+            veterinarian = VeterinarianInfo(
+                user=user_in.id,
+                name=usuario.name,
+                email=usuario.email,
+            )
+            await veterinarian.insert()
+            user_in.additional_data = veterinarian.id
+            await user_in.save()
         return user_in
 
     @staticmethod

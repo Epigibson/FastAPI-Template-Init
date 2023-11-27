@@ -8,9 +8,15 @@ from core.description import DESCRIPTION
 from docs import tags_metadata
 from models.notificaciones_model import Notificaciones
 from models.user_model import Usuario
-from models.todo_model import Todo
+from models.veterianrian_info_model import VeterinarianInfo
 from models.role_model import Role
 from models.permission_model import Permission
+from models.pet_model import Pet
+from models.category_model import Category
+from models.product_model import Product
+from models.medical_history_model import (MedicalHistory, VaccinesHistory, DewormingHistory, AllergyHistory,
+                                          FoodAndDietInformation, MedicalProcedures, MedicalConsultations,
+                                          LaboratoryAnalysis, FollowUpNotes, Medicines)
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -24,19 +30,23 @@ app = FastAPI(
 
 @app.on_event("startup")
 async def app_init():
-    """
-        initialize crucial application services
-    """
 
-    db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING).WMG
+    db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING).MICHICONDRIA
 
     await init_beanie(
         database=db_client,
         document_models=[
             Notificaciones,
             Usuario,
-            Todo,
+            VeterinarianInfo,
             Role,
+            Pet,
+            Category,
+            Product,
+            MedicalHistory,
+            VaccinesHistory, DewormingHistory, AllergyHistory,
+            FoodAndDietInformation, MedicalProcedures, MedicalConsultations,
+            LaboratoryAnalysis, FollowUpNotes, Medicines,
             Permission,
         ]
     )
@@ -44,7 +54,7 @@ app.include_router(router, prefix=settings.API_V1_STR)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.BACKEND_CORS_ORIGINS,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

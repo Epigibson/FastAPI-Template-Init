@@ -8,13 +8,17 @@ from pydantic import Field, EmailStr
 class Usuario(Document):
     user_id: UUID = Field(default_factory=uuid4)
     username: Indexed(str, unique=True)
+    name: Optional[str] = Field()
     email: Indexed(EmailStr, unique=True)
     hashed_password: str
     phone: Optional[int] = None
     mobile: Optional[int] = None
     role: Optional[PydanticObjectId]
     birthday: Optional[str]
+    address: Optional[str] = Field()
     status: Optional[bool] = True
+    user_type: Optional[str] = Field()
+    additional_data: Optional[PydanticObjectId] = Field()
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
 
