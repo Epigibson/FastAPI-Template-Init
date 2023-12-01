@@ -10,6 +10,7 @@ class Pet(Document):
     pet_id: UUID = Field(default_factory=uuid4, unique=True)
     owner: PydanticObjectId = Field()
     name: Indexed(str)
+    profile_iamges: Optional[list[str]] = Field(default=[])
     nickname: str = Field()
     born_day: str = Field()
     gender: str = Field()
@@ -18,8 +19,8 @@ class Pet(Document):
     color_cast: str = Field()
     medical_conditions: Optional[str] = Field()
     medical_history: Optional[Link[MedicalHistory]] = Field()
-    is_active: bool = Field(default=True)
-    is_adopted: bool = Field(default=False)
+    is_active: bool = True
+    is_adopted: Optional[bool] = Field()
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
 
