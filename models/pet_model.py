@@ -10,7 +10,7 @@ class Pet(Document):
     pet_id: UUID = Field(default_factory=uuid4, unique=True)
     owner: PydanticObjectId = Field()
     name: Indexed(str)
-    profile_iamges: Optional[list[str]] = Field(default=[])
+    profile_images: Optional[list[str]] = Field(default=[])
     nickname: str = Field()
     born_day: str = Field()
     gender: str = Field()

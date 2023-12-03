@@ -10,7 +10,7 @@ from models.medical_history_model import MedicalHistory
 
 class PetCreate(BaseModel):
     name: str
-    profile_iamges: Optional[list[str]]
+    profile_images: Optional[list[str]]
     nickname: str
     born_day: str
     gender: str
@@ -26,7 +26,7 @@ class PetOut(BaseModel):
     pet_id: UUID
     owner: PydanticObjectId
     name: str
-    profile_iamges: Optional[list[str]]
+    profile_images: Optional[list[str]]
     nickname: str
     born_day: str
     color: str
@@ -42,7 +42,7 @@ class PetOut(BaseModel):
 
 class PetUpdate(BaseModel):
     name: Optional[str]
-    profile_iamges: Optional[list[str]]
+    profile_images: Optional[list[str]]
     nickname: Optional[str]
     born_day: Optional[str]
     gender: Optional[str]
