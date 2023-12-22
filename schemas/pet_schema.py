@@ -10,7 +10,6 @@ from models.medical_history_model import MedicalHistory
 
 class PetCreate(BaseModel):
     name: str
-    profile_images: Optional[list[str]]
     nickname: str
     born_day: str
     gender: str
@@ -18,6 +17,7 @@ class PetCreate(BaseModel):
     specie: str
     color_cast: str
     medical_conditions: Optional[str]
+    is_active: Optional[bool]
     is_adopted: Optional[bool]
 
 
@@ -42,7 +42,6 @@ class PetOut(BaseModel):
 
 class PetUpdate(BaseModel):
     name: Optional[str]
-    profile_images: Optional[list[str]]
     nickname: Optional[str]
     born_day: Optional[str]
     gender: Optional[str]

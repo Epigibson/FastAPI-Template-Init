@@ -2,14 +2,14 @@ from datetime import datetime
 from typing import Optional
 from pydantic import Field
 from uuid import UUID, uuid4
-from beanie import Document, PydanticObjectId, Link, Indexed
+from beanie import Document, PydanticObjectId, Link
 from models.medical_history_model import MedicalHistory
 
 
 class Pet(Document):
     pet_id: UUID = Field(default_factory=uuid4, unique=True)
     owner: PydanticObjectId = Field()
-    name: Indexed(str)
+    name: str = Field()
     profile_images: Optional[list[str]] = Field(default=[])
     nickname: str = Field()
     born_day: str = Field()
