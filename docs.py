@@ -8,6 +8,10 @@ tags_metadata = [
         "description": "User routes"
     },
     {
+        "name": "Images",
+        "description": "Images routes"
+    },
+    {
         "name": "Pets",
         "description": "Pets routes"
     },
