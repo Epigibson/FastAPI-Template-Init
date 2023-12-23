@@ -5,6 +5,7 @@ from starlette.middleware.cors import CORSMiddleware
 from api.api_V1.router import router
 from core.config import settings
 from core.description import DESCRIPTION
+from core.update_fields import update_fields
 from docs import tags_metadata
 from models.notificaciones_model import Notificaciones
 from models.user_model import Usuario
@@ -50,6 +51,10 @@ async def app_init():
             Permission,
         ]
     )
+
+    # Llama a la función para actualizar privado
+    await update_fields()
+
 app.include_router(router, prefix=settings.API_V1_STR)
 
 app.add_middleware(
