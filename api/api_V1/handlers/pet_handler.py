@@ -62,9 +62,22 @@ async def update_pet_by_id(pet_id: UUID, data: PetUpdate, owner: Usuario = Depen
 
 
 @pet_router.put("/images/{pet_id}", summary="Update pet images by ID", tags=["Pets"], response_model=Pet)
-async def update_pet_images(pet_id: UUID, new_images: List[UploadFile] = File(...), owner: Usuario = Depends(get_current_user)):
+async def update_pet_images(pet_id: UUID, new_images: List[UploadFile] = File(...),
+                            owner: Usuario = Depends(get_current_user)):
     try:
         result = await PetService.update_pet_images(pet_id, owner, new_images)
+        return result
+    except pymongo.errors.OperationFailure:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Can't update pet."
+        )
+
+
+@pet_router.put("/avatar/{pet_id}", summary="Update pet avatar by ID", tags=["Pets"], response_model=Pet)
+async def update_pet_avatar(pet_id: UUID, avatar: UploadFile = File(...), owner: Usuario = Depends(get_current_user)):
+    try:
+        result = await PetService.update_pet_avatar(pet_id, owner, avatar)
         return result
     except pymongo.errors.OperationFailure:
         raise HTTPException(

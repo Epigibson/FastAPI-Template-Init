@@ -86,6 +86,22 @@ class PetService:
         return pet
 
     @staticmethod
+    async def update_pet_avatar(pet_id: UUID, owner: Usuario, avatar: UploadFile):
+        pet = await PetService.get_pet_by_id(pet_id, owner)
+
+        if avatar:
+            images_directory = Path("path/to/your/image/directory")
+            images_directory.mkdir(parents=True, exist_ok=True)  # Crea el directorio si no existe
+
+            file_location = images_directory / avatar.filename
+            with open(file_location, "wb+") as file_object:
+                file_object.write(await avatar.read())
+                pet.avatar_image = str(file_location)
+
+        await pet.save()
+        return pet
+
+    @staticmethod
     async def delete_pet(pet_id: UUID, owner: Usuario):
         result = await Pet.find_one(Pet.owner == owner.id, Pet.pet_id == pet_id)
         if not result:

@@ -27,7 +27,8 @@ class PetOut(BaseModel):
     owner: PydanticObjectId
     name: str
     profile_images: Optional[list[str]]
-    nickname: str
+    avatar_image: Optional[str]
+    sterilized: bool
     born_day: str
     color: str
     specie: str

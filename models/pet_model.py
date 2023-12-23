@@ -11,6 +11,8 @@ class Pet(Document):
     owner: PydanticObjectId = Field()
     name: str = Field()
     profile_images: Optional[list[str]] = Field(default=[])
+    avatar_image: Optional[str] = Field()
+    sterilized:  bool = Field()
     nickname: str = Field()
     born_day: str = Field()
     gender: str = Field()
