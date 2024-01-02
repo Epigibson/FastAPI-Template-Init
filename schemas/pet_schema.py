@@ -19,6 +19,7 @@ class PetCreate(BaseModel):
     medical_conditions: Optional[str]
     is_active: Optional[bool]
     is_adopted: Optional[bool]
+    sterilized: Optional[bool]
 
 
 class PetOut(BaseModel):
