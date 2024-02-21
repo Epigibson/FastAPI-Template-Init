@@ -1,11 +1,10 @@
-import json
 from typing import Optional, List
 import pymongo.errors
-from fastapi import APIRouter, HTTPException, status, Depends, UploadFile, File, Form
+from fastapi import APIRouter, HTTPException, status, Depends, UploadFile, File
 from api.deps.user_deps import get_current_user
 from models.pet_model import Pet
 from models.user_model import Usuario
-from schemas.pet_schema import PetUpdate, PetCreate
+from schemas.pet_schema import PetUpdate
 from services.pet_services import PetService
 from uuid import UUID
 
@@ -37,10 +36,14 @@ async def get_pet_by_id(pet_id: UUID, owner: Usuario = Depends(get_current_user)
         )
 
 
-@pet_router.post("/", summary="Create pet", tags=["Pets"], response_model=Pet)
-async def create_pet(data: PetCreate, owner: Usuario = Depends(get_current_user)):
+@pet_router.post("/create", summary="Create pet", tags=["Pets"])
+async def create_pet(name: str,
+                     nickname: str,
+                     birthday: str,
+                     new_images: Optional[list[UploadFile]] = File(None),
+                     owner: Usuario = Depends(get_current_user)):
     try:
-        result = await PetService.create_pet(data, owner)
+        result = await PetService.create_pet(name, nickname, birthday, owner, new_images)
         return result
     except pymongo.errors.OperationFailure:
         raise HTTPException(

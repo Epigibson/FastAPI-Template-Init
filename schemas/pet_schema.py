@@ -1,9 +1,9 @@
-from datetime import datetime
+from datetime import datetime, date
 from typing import Optional
 from uuid import UUID
 
 from beanie import PydanticObjectId, Link
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from models.medical_history_model import MedicalHistory
 
@@ -19,7 +19,7 @@ class PetCreate(BaseModel):
     medical_conditions: Optional[str]
     is_active: Optional[bool]
     is_adopted: Optional[bool]
-    sterilized: Optional[bool]
+    is_sterilized: Optional[bool]
 
 
 class PetOut(BaseModel):
@@ -29,7 +29,6 @@ class PetOut(BaseModel):
     name: str
     profile_images: Optional[list[str]]
     avatar_image: Optional[str]
-    sterilized: bool
     born_day: str
     color: str
     specie: str
@@ -37,6 +36,7 @@ class PetOut(BaseModel):
     medical_conditions: Optional[str]
     medical_history: Optional[Link[MedicalHistory]]
     is_active: bool
+    is_sterilized: bool
     is_adopted: bool
     created_at: datetime
     updated_at: datetime
@@ -53,3 +53,4 @@ class PetUpdate(BaseModel):
     medical_conditions: Optional[str]
     is_active: Optional[bool]
     is_adopted: Optional[bool]
+    is_sterilized: Optional[bool]

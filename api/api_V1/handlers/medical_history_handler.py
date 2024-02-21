@@ -1,6 +1,9 @@
 from uuid import UUID
 import pymongo.errors
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, status, Depends
+
+from api.deps.user_deps import get_current_user
+from models.user_model import Usuario
 from services.medical_history_services import MedicalHistoryService
 
 medical_history_router = APIRouter()
@@ -19,9 +22,9 @@ async def get_medical_history():
 
 
 @medical_history_router.post("/{pet_id}", summary="Create medical history", tags=["Medical History"])
-async def create_medical_history(pet_id: UUID):
+async def create_medical_history(pet_id: UUID, owner: Usuario = Depends(get_current_user)):
     try:
-        result = await MedicalHistoryService.create_medical_history_for_pet(pet_id)
+        result = await MedicalHistoryService.create_medical_history_for_pet(pet_id, owner)
         return result
     except pymongo.errors.OperationFailure as e:
         raise HTTPException(

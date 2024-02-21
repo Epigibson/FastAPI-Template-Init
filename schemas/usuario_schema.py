@@ -35,4 +35,5 @@ class UsuarioUpdate(BaseModel):
     phone: Optional[int]
     mobile: Optional[int]
     birthday: Optional[str]
+    address: Optional[str]
     status: Optional[bool]

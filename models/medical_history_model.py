@@ -214,7 +214,7 @@ class MedicalHistory(Document):
     medical_procedures: Optional[List[Link[MedicalProcedures]]] = Field([])
     laboratory_analysis: Optional[List[Link[LaboratoryAnalysis]]] = Field([])
     food_and_diet_information: Optional[List[Link[FoodAndDietInformation]]] = Field([])
-    consents_and_authorizations: Optional[bytes] = Field(default_factory=bytes)
+    consents_and_authorizations: Optional[list[str]] = Field([])
 
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)

@@ -16,6 +16,10 @@ tags_metadata = [
         "description": "Pets routes"
     },
     {
+        "name": "Pet Images",
+        "description": "Pet Images routes"
+    },
+    {
         "name": "Category",
         "description": "Category routes"
     },

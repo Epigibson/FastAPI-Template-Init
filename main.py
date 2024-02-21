@@ -8,6 +8,7 @@ from core.description import DESCRIPTION
 from core.update_fields import update_fields
 from docs import tags_metadata
 from models.notificaciones_model import Notificaciones
+from models.pet_images import PetImage
 from models.user_model import Usuario
 from models.veterianrian_info_model import VeterinarianInfo
 from models.role_model import Role
@@ -42,6 +43,7 @@ async def app_init():
             VeterinarianInfo,
             Role,
             Pet,
+            PetImage,
             Category,
             Product,
             MedicalHistory,

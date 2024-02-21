@@ -10,11 +10,19 @@ class Settings(BaseSettings):
     ALGORITHM = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 999
     REFRESH_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7
+
     ALLOWED_METHODS: Set[str] = {"*"}
     ALLOWED_HEADERS: Set[str] = {"*"}
     ALLOWED_CREDENTIALS: bool = True
+
     PROJECT_NAME: str = "Michicondria"
+
     SENDGRID_API_KEY = config("SENDGRID_API_KEY", cast=str)
+
+    CLOUDINARY_CLOUD_NAME = config("CLOUDINARY_CLOUD_NAME")
+    CLOUDINARY_API_KEY = config("CLOUDINARY_API_KEY")
+    CLOUDINARY_API_SECRET = config("CLOUDINARY_API_SECRET")
+
     MONGO_CONNECTION_STRING = config("MONGO_CONNECTION_STRING", cast=str)
 
     class Config:

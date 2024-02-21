@@ -9,6 +9,7 @@ from api.api_V1.handlers import pet_handler
 from api.api_V1.handlers import medical_history_handler
 from api.api_V1.handlers import category_handler
 # from api.api_V1.handlers import product_handler
+from api.api_V1.handlers import pet_images_handler
 from api.auth.jwt import auth_router
 
 router = APIRouter()
@@ -24,3 +25,4 @@ router.include_router(pet_handler.pet_router, prefix='/pets')
 router.include_router(medical_history_handler.medical_history_router, prefix='/medical_histories')
 router.include_router(category_handler.category_router, prefix='/categories')
 # router.include_router(product_handler.product_router, prefix='/products')
+router.include_router(pet_images_handler.pet_images_router, prefix='/pet_images')

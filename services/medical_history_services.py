@@ -8,7 +8,7 @@ from fastapi import HTTPException, status
 class MedicalHistoryService:
 
     @staticmethod
-    async def get_all_medical_histories() -> list[MedicalHistory]:
+    async def get_all_medical_histories():
         medical_histories = await MedicalHistory.find_all().to_list()
         if not medical_histories:
             raise HTTPException(
@@ -18,7 +18,14 @@ class MedicalHistoryService:
         return medical_histories
 
     @staticmethod
-    async def create_medical_history_for_pet(pet_id: UUID):
+    async def create_medical_history_for_pet(pet_id: UUID, owner: Usuario):
+        # Before create the medical history we need to check if the person who want to create it is veterinarian.
+        if owner.user_type is not "Veterinarian":
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail=f"You are not a veterinarian, only Veterinarians can create a Medical History for a Pet."
+            )
+
         # First we need to check if the pet exists, to confirm we need to get the pet.
         pet = await Pet.find_one(Pet.pet_id == pet_id)
         if not pet:
@@ -54,7 +61,7 @@ class MedicalHistoryService:
         if medical_history_check:
             raise HTTPException(
                 status_code=status.HTTP_409_CONFLICT,
-                detail=f"Medical history already exists for this pet"
+                detail=f"Medical history already exists for this pet."
             )
 
         # Now we can create the medical history

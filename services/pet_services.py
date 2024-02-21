@@ -2,11 +2,16 @@ import re
 from pathlib import Path
 from typing import Optional, List
 from uuid import UUID
+
+from models.pet_images import PetImage
 from models.pet_model import Pet
 from models.user_model import Usuario
-from schemas.pet_schema import PetCreate, PetUpdate
+from schemas.pet_schema import PetUpdate
 
 from fastapi import HTTPException, status, Query, UploadFile
+
+import core.cloudinary_config
+from cloudinary.uploader import upload
 
 
 class PetService:
@@ -52,9 +57,32 @@ class PetService:
         return result
 
     @staticmethod
-    async def create_pet(data: PetCreate, owner: Usuario):
-        pet = Pet(**data.dict(), owner=owner.id)
+    async def create_pet(name, nickname, birthday, owner: Usuario, new_images: Optional[List[UploadFile]] = None):
+        pet = Pet(
+            name=name,
+            nickname=nickname,
+            born_day=birthday,
+            owner=owner.id,
+        )
         await pet.insert()
+
+        images_url = []
+        if new_images:
+            for element in new_images:
+                image = upload(element.file.read(), folder="pet_images", public_id=element.filename, overwrite=True,)
+                images_url.append(image['url'])
+                pet_image = PetImage(
+                    pet_id=pet.pet_id,
+                    pet_image_name=element.filename,
+                    pet_image_url=image['url'],
+                    pet_image_type=image['type'],
+                    pet_image_size=image['bytes'],
+                    pet_image_extension=image['format'],
+                    pet_image_is_avatar=False,
+                )
+                await pet_image.insert()
+        pet.profile_images = images_url
+        await pet.save()
         return pet
 
     @staticmethod
